@@ -6,6 +6,7 @@ import ReferenceTable from './components/ReferenceTable'
 import { IMCResult, calculateIMC } from './lib/IMC'
 import React from 'react'
 import ResultsTable from './components/ResultsTable'
+import Titulo from './components/Titulo'
 
 function App() {
 
@@ -67,7 +68,9 @@ function App() {
   }
 
   return (
-   <main className='bg-white max-x-4xl mx-auto md:py-24 md:px-48 px-5 py-10'>
+   <main className='bg-white max-w-7xl mx-auto md:py-20 md:px-48 px-5 py-10'>
+
+    <Titulo/>
 
     <section id='form'>
 

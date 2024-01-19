@@ -4,7 +4,7 @@ import formatNumber from '../lib/IMC'
 const ResultsTable = ({IMCData}: 
   {IMCData: {weight: number, height: number, IMC: number, IMCResult: string}}) => {
   return (
-    <table className='text-center text-xs md:text-base md[&>tr>td]:p-2 nd:[&>tbody>tr>td]:px-4 [&>tbody>tr>td]:px-2 text-neutral-600 mx-auto '>
+    <table className='text-center md:text-base md[&>tr>td]:p-2 nd:[&>tbody>tr>td]:px-4 [&>tbody>tr>td]:px-2 text-neutral-600 mx-auto '>
       <tbody>
 
           <tr className='font-bold border-b border-b-rose-400'>
