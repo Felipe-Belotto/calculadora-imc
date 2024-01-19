@@ -1,86 +1,106 @@
 
+import { Height } from '@mui/icons-material'
 import './App.css'
+import Button from './components/Button'
+import Input from './components/Input'
+import Label from './components/Label'
+import ReferenceTable from './components/ReferenceTable'
+import { IMCResult, calculateIMC } from './lib/IMC'
+import React from 'react'
+import ResultsTable from './components/ResultsTable'
 
 function App() {
+
+  const[IMCData, setIMCData] = React.useState<null | {
+    weight: number;
+    height: number;
+    IMC: number;
+    IMCResult: string
+  }>(null)
+
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>){
+    e.preventDefault()
+
+    const formData = new FormData(e.currentTarget)
+    
+    const data = Object.fromEntries(formData) as {weight: string, height: string}
+
+    const { weight, height } = data
+
+    if(!weight || !height){
+      alert("Ops... você precisa preencher todos os campos")
+      return
+    }
+
+    const weightNumber = parseFloat(weight.replace(',','.'))
+    const heightNumber = parseFloat(height.replace(',','.'))/100;
+
+    if(isNaN(weightNumber) || isNaN(heightNumber)){
+      alert("Ops... você precisa preencher os campos com números validos") 
+      return
+    }
+
+    if(weightNumber < 2 || weightNumber > 500){
+      alert("Ops... o seu peso precisa ser maior que 2 kg e menor que 500 kg") 
+    }
+
+    if(heightNumber < 0.5 || heightNumber > 2.5){
+      alert("Ops... a sua altura precisa ser maior que 0,5 cm e menor que 2,5 cm") 
+    }
+
+    const IMC = calculateIMC(weightNumber, heightNumber)
+
+    const IMCResultString = IMCResult(IMC)
+
+    setIMCData(
+     { weight: weightNumber,
+      height: heightNumber,
+      IMC: IMC,
+      IMCResult: IMCResultString}
+      )
+
+      e.currentTarget.reset()
+
+  }
+  
+  function handleClickReset(e){
+    e.preventDefault()
+    setIMCData(null)
+  }
+
   return (
    <main className='bg-white max-x-4xl mx-auto py-24 px-48'>
 
     <section id='form'>
 
-    <form>
+    <form onSubmit={handleSubmit}>
       <div>
-        <label htmlFor="weight" className='block text-neutral-600 font-light text-sm'>Peso (kg)</label>
-        <input type="text" id='weight' className='block w-full border border-rose-400 rounded p-3' />
+      <Label htmlFor='weight'> Peso (kg)</Label>
+      <Input disabled={!!IMCData} className='mt-1' type="text" id='weight' name='weight' />
       </div>
-      <div>
-        <label htmlFor="height" className='block text-neutral-600 font-light text-sm'>Altura (cm)</label>
-        <input type="text" id='height' className='block w-full border border-rose-400 rounded p-3'/>
+      <div className='mt-4'>
+      <Label htmlFor='height'> Altura (cm)</Label>
+      <Input disabled={!!IMCData} className='mt-1' type="text" id='height' name='height' />
       </div>
-      <button className='mt-6 bg-rose-400 text-white font-bold w-full p-3 rounded '>
-        Calcular
-      </button>
+      {IMCData? (<Button onClick={handleClickReset}>Refazer</Button>): (<Button type='submit'>Calcular</Button>)}
     </form>
 
     </section>
 
     <section id='result' className='py-10 px-4 h-40'>
-    <p className='text-center text-neutral-400 text-xl'>Saiba agora se está no seu peso ideal !</p>
+    {IMCData ? (
+
+    <ResultsTable IMCData={IMCData}/>
+    
+    ) : 
+    (
+      <p className='text-center text-neutral-400 text-xl'>Saiba agora se está no seu peso ideal !</p>
+    )}
+   
     </section>
 
     <section id='reference-table'>
-    <table className='mx-auto text-neutral-600 text-left'>
-      <thead className='bg-zinc-100 text-rose-400 '>
-        <tr>
-          <th className='px-6 py-2'>IMC</th>
-          <th className='px-6 py-2'>Classificação</th>
-        </tr>
-      </thead>
-
-      {/* Estiliza as linhas pares para o fundo zinc-100 e impares com white e estiliza os espaçamentos dos tr e dos tds */}
-      <tbody 
-      className='[&>tr:nth-child(even)]:bg-zinc-100 
-      [&>tr:nth-child(odd)]:bg-white
-      [&>tr>td]:px-6 [&>tr>td]:py-1
-      '>
-
-      <tr>
-        <td>Menos de 17</td>
-        <td>Muito abaixo do peso</td>
-      </tr>
-
-      <tr>
-        <td>17 e 18,49</td>
-        <td>Abaixo do peso</td>
-      </tr>
-
-      <tr>
-        <td>18,5 e 24,99</td>
-        <td>Peso normal</td>
-      </tr>
-
-      <tr>
-        <td>25 e 29,99</td>
-        <td>Acima do peso</td>
-      </tr>
-      
-      <tr>
-        <td>30 e 34,99</td>
-        <td>Obesidade I</td>
-      </tr>
-
-      <tr>
-        <td>35 e 39,99</td>
-        <td>Obesidade II (severa)</td>
-      </tr>
-
-      <tr>
-        <td>Acima de 40</td>
-        <td>Obesidade III (mórbida)</td>
-      </tr>
-
-
-      </tbody>
-    </table>
+    <ReferenceTable/>
     </section>
 
 
