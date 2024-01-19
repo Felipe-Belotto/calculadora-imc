@@ -61,7 +61,7 @@ function App() {
 
   }
   
-  function handleClickReset(e){
+  function handleClickReset(e : React.MouseEvent<HTMLButtonElement>){
     e.preventDefault()
     setIMCData(null)
   }
