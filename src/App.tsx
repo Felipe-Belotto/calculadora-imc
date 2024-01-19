@@ -1,5 +1,3 @@
-
-import { Height } from '@mui/icons-material'
 import './App.css'
 import Button from './components/Button'
 import Input from './components/Input'
@@ -69,7 +67,7 @@ function App() {
   }
 
   return (
-   <main className='bg-white max-x-4xl mx-auto py-24 px-48'>
+   <main className='bg-white max-x-4xl mx-auto md:py-24 md:px-48 px-5 py-10'>
 
     <section id='form'>
 
