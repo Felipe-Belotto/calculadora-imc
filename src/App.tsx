@@ -68,7 +68,7 @@ function App() {
   }
 
   return (
-   <main className='bg-white max-w-7xl mx-auto md:py-20 md:px-48 px-5 py-10'>
+   <main className='bg-white max-w-7xl mx-auto md:py-10 md:px-48 px-5 py-10'>
 
     <Titulo/>
 

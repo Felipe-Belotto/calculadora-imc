@@ -7,7 +7,7 @@ const ResultsTable = ({IMCData}:
     <table className='text-center md:text-base md[&>tr>td]:p-2 nd:[&>tbody>tr>td]:px-4 [&>tbody>tr>td]:px-2 text-neutral-600 mx-auto '>
       <tbody>
 
-          <tr className='font-bold border-b border-b-rose-400'>
+          <tr className='font-bold border-b border-b-purple-400'>
             <td>Peso</td>
             <td>Altura</td>
             <td>IMC</td>
